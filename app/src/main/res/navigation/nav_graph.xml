@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/overview_fragment">
+
+    <fragment
+        android:id="@+id/overview_fragment"
+        android:name="com.anastasiaiu.dttrealestate.view.fragments.OverviewFragment"
+        android:label="@string/overview_fragment_label"
+        tools:layout="@layout/fragment_overview">
+
+        <action
+            android:id="@+id/action_overview_fragment_to_house_detail_fragment"
+            app:destination="@id/house_detail_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/favourites_fragment"
+        android:name="com.anastasiaiu.dttrealestate.view.fragments.FavouritesFragment"
+        android:label="@string/favourites_fragment_label"
+        tools:layout="@layout/fragment_favourites">
+
+        <action
+            android:id="@+id/action_favourites_fragment_to_house_detail_fragment"
+            app:destination="@id/house_detail_fragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/information_fragment"
+        android:name="com.anastasiaiu.dttrealestate.view.fragments.InformationFragment"
+        android:label="@string/information_fragment_label"
+        tools:layout="@layout/fragment_information" />
+
+    <fragment
+        android:id="@+id/house_detail_fragment"
+        android:name="com.anastasiaiu.dttrealestate.view.fragments.HouseDetailFragment"
+        android:label="@string/house_detail_fragment_label"
+        tools:layout="@layout/fragment_house_detail" />
+
+</navigation>

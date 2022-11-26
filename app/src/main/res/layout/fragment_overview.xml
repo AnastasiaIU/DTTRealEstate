@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/overview_fragment_toolbar"
+        style="@style/TextAppearance.DTTRealEstate.TitleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/overview_fragment_label" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchField"
+        style="@style/TextAppearance.DTTRealEstate.Hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/container_margin"
+        android:layout_marginEnd="@dimen/container_margin"
+        android:layout_marginBottom="@dimen/container_margin"
+        android:hint="@string/search_hint"
+        android:theme="@style/Theme.DTTRealEstate.Search"
+        app:boxBackgroundColor="?attr/colorSurfaceVariant"
+        app:boxStrokeWidth="@dimen/no_dp"
+        app:boxStrokeWidthFocused="@dimen/no_dp"
+        app:endIconDrawable="@drawable/ic_search"
+        app:endIconMode="custom"
+        app:endIconTint="?attr/colorOnSurface"
+        app:hintTextAppearance="@style/TextAppearance.DTTRealEstate.Hint"
+        app:shapeAppearance="@style/ShapeAppearance.DTTRealEstate.RoundedSmallComponent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/TextAppearance.DTTRealEstate.BodyStrong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:name="com.anastasiaiu.dttrealestate.view.fragments.OverviewFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/container_margin"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/container_margin"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/fragment_house_card" />
+
+</LinearLayout>

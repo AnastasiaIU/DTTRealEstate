@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text style Title 01. -->
+    <style name="TextAppearance.DTTRealEstate.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/gotham_ssm_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/strong</item>
+    </style>
+
+    <!-- Text style Title 02. -->
+    <style name="TextAppearance.DTTRealEstate.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">@font/gotham_ssm_bold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/strong</item>
+    </style>
+
+    <!-- Text style Title 03. -->
+    <style name="TextAppearance.DTTRealEstate.TitleSmall" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontFamily">@font/gotham_ssm_medium</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/strong</item>
+    </style>
+
+    <!-- Text style Body Medium. -->
+    <style name="TextAppearance.DTTRealEstate.BodyMedium" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/gotham_ssm_book</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/medium</item>
+    </style>
+
+    <!-- Text style Body Strong. -->
+    <style name="TextAppearance.DTTRealEstate.BodyStrong" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/gotham_ssm_book</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/strong</item>
+    </style>
+
+    <!-- Text style Input. -->
+    <style name="TextAppearance.DTTRealEstate.Input" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/gotham_ssm_light</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/strong</item>
+    </style>
+
+    <!-- Text style Hint. -->
+    <style name="TextAppearance.DTTRealEstate.Hint" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/gotham_ssm_book</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/light</item>
+    </style>
+
+    <!-- Text style Subtitle. -->
+    <style name="TextAppearance.DTTRealEstate.Subtitle" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/gotham_ssm_book</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/medium</item>
+    </style>
+
+    <!-- Text style Detail. -->
+    <style name="TextAppearance.DTTRealEstate.Detail" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/gotham_ssm_book</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">@color/medium</item>
+    </style>
+
+    <!-- Shape style Rounded Small Component. -->
+    <style name="ShapeAppearance.DTTRealEstate.RoundedSmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+</resources>

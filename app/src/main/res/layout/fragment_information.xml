@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/information_fragment_toolbar"
+        style="@style/TextAppearance.DTTRealEstate.TitleLarge"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/information_fragment_label" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/information_fragment_toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/container_margin"
+            android:layout_marginEnd="@dimen/container_margin"
+            android:layout_marginBottom="@dimen/container_margin">
+
+            <TextView
+                android:id="@+id/info_main_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lorem_ipsum"
+                android:textAppearance="@style/TextAppearance.DTTRealEstate.BodyMedium"
+                app:layout_constraintBottom_toTopOf="@id/info_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
+
+            <TextView
+                android:id="@+id/info_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:text="@string/info_title"
+                android:textAppearance="@style/TextAppearance.DTTRealEstate.TitleMedium"
+                app:layout_constraintBottom_toTopOf="@id/info_banner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/info_main_text" />
+
+            <ImageView
+                android:id="@+id/info_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/light_gray"
+                android:importantForAccessibility="no"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/info_title"
+                app:srcCompat="@drawable/dtt_banner" />
+
+            <LinearLayout
+                android:id="@+id/credits_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@id/info_banner"
+                app:layout_constraintStart_toEndOf="@id/info_banner"
+                app:layout_constraintTop_toTopOf="@id/info_banner">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_by"
+                    android:textAppearance="@style/TextAppearance.DTTRealEstate.BodyStrong" />
+
+                <TextView
+                    android:id="@+id/info_website"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="@string/info_website"
+                    android:textAppearance="@style/TextAppearance.DTTRealEstate.BodyStrong"
+                    android:textColor="@color/hyperlink" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

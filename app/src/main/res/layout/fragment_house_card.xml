@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/house_card"
+    style="?attr/materialCardViewElevatedStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/house_card_picture"
+            android:layout_width="@dimen/house_card_picture_size"
+            android:layout_height="@dimen/house_card_picture_size"
+            android:layout_margin="@dimen/margin_regular"
+            android:contentDescription="@string/picture_description_house"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/ShapeAppearance.DTTRealEstate.RoundedSmallComponent"
+            app:srcCompat="@drawable/house_pic" />
+
+        <TextView
+            android:id="@+id/house_card_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/text_margin"
+            android:textAppearance="@style/TextAppearance.DTTRealEstate.TitleMedium"
+            app:layout_constraintStart_toEndOf="@id/house_card_picture"
+            app:layout_constraintTop_toTopOf="@id/house_card_picture" />
+
+        <TextView
+            android:id="@+id/house_card_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.DTTRealEstate.Subtitle"
+            app:layout_constraintStart_toStartOf="@id/house_card_price"
+            app:layout_constraintTop_toBottomOf="@id/house_card_price" />
+
+        <ImageView
+            android:id="@+id/house_card_icon_bedrooms"
+            android:layout_width="@dimen/house_card_icon_size"
+            android:layout_height="@dimen/house_card_icon_size"
+            android:contentDescription="@string/icon_description_bedrooms"
+            app:layout_constraintBottom_toBottomOf="@id/house_card_picture"
+            app:layout_constraintStart_toStartOf="@id/house_card_location"
+            app:srcCompat="@drawable/ic_bed"
+            app:tint="?attr/colorOnSurface" />
+
+        <TextView
+            android:id="@+id/house_card_bedrooms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:textAppearance="@style/TextAppearance.DTTRealEstate.Detail"
+            app:layout_constraintBottom_toBottomOf="@id/house_card_icon_bedrooms"
+            app:layout_constraintStart_toEndOf="@id/house_card_icon_bedrooms"
+            app:layout_constraintTop_toTopOf="@id/house_card_icon_bedrooms" />
+
+        <ImageView
+            android:id="@+id/house_card_icon_bathrooms"
+            android:layout_width="@dimen/house_card_icon_size"
+            android:layout_height="@dimen/house_card_icon_size"
+            android:layout_marginStart="@dimen/icon_margin"
+            android:contentDescription="@string/icon_description_bathrooms"
+            app:layout_constraintBottom_toBottomOf="@id/house_card_picture"
+            app:layout_constraintStart_toEndOf="@id/house_card_bedrooms"
+            app:srcCompat="@drawable/ic_bath"
+            app:tint="?attr/colorOnSurface" />
+
+        <TextView
+            android:id="@+id/house_card_bathrooms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:textAppearance="@style/TextAppearance.DTTRealEstate.Detail"
+            app:layout_constraintBaseline_toBaselineOf="@id/house_card_bedrooms"
+            app:layout_constraintStart_toEndOf="@id/house_card_icon_bathrooms" />
+
+        <ImageView
+            android:id="@+id/house_card_icon_size"
+            android:layout_width="@dimen/house_card_icon_size"
+            android:layout_height="@dimen/house_card_icon_size"
+            android:layout_marginStart="@dimen/icon_margin"
+            android:contentDescription="@string/icon_description_size"
+            app:layout_constraintBottom_toBottomOf="@id/house_card_picture"
+            app:layout_constraintStart_toEndOf="@id/house_card_bathrooms"
+            app:srcCompat="@drawable/ic_layers"
+            app:tint="?attr/colorOnSurface" />
+
+        <TextView
+            android:id="@+id/house_card_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:textAppearance="@style/TextAppearance.DTTRealEstate.Detail"
+            app:layout_constraintBaseline_toBaselineOf="@id/house_card_bathrooms"
+            app:layout_constraintStart_toEndOf="@id/house_card_icon_size" />
+
+        <ImageView
+            android:id="@+id/house_card_icon_distance"
+            android:layout_width="@dimen/house_card_icon_size"
+            android:layout_height="@dimen/house_card_icon_size"
+            android:layout_marginStart="@dimen/icon_margin"
+            android:contentDescription="@string/icon_description_distance"
+            app:layout_constraintBottom_toBottomOf="@id/house_card_picture"
+            app:layout_constraintStart_toEndOf="@id/house_card_size"
+            app:srcCompat="@drawable/ic_location"
+            app:tint="?attr/colorOnSurface" />
+
+        <TextView
+            android:id="@+id/house_card_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/detail_text_margin"
+            android:textAppearance="@style/TextAppearance.DTTRealEstate.Detail"
+            app:layout_constraintBaseline_toBaselineOf="@id/house_card_size"
+            app:layout_constraintStart_toEndOf="@id/house_card_icon_distance" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- DTT Real Estate Colors -->
+    <color name="red">#FFE65541</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+    <color name="dark_gray">#FFEBEBEB</color>
+    <color name="light_gray">#FFF7F7F7</color>
+    <color name="strong">#CC000000</color>
+    <color name="medium">#66000000</color>
+    <color name="light">#33000000</color>
+    <color name="hyperlink">#FF5E91CB</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="dark_theme_primary">#FF313131</color>
+    <color name="dark_theme_secondary_container">#FF313131</color>
+    <color name="dark_theme_on_secondary_container">#FFF7F7F7</color>
+    <color name="dark_theme_background">#FF1C1B1F</color>
+    <color name="dark_theme_surface">#FF313131</color>
+    <color name="dark_theme_surface_variant">#FF252525</color>
+    <color name="dark_theme_on_surface_variant">#66000000</color>
+</resources>

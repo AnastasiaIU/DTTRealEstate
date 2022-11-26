@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/overview_fragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/overview_fragment_label" />
+
+    <item
+        android:id="@+id/favourites_fragment"
+        android:icon="@drawable/ic_baseline_star_24"
+        android:title="@string/favourites_fragment_label" />
+
+    <item
+        android:id="@+id/information_fragment"
+        android:icon="@drawable/ic_info"
+        android:title="@string/information_fragment_label" />
+
+</menu>

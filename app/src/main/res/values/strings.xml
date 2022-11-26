@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TODO: Organize strings -->
+    <string name="app_name">DTT Real Estate</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="overview_fragment_label">DTT REAL ESTATE</string>
+    <string name="favourites_fragment_label">FAVOURITES</string>
+    <string name="information_fragment_label">ABOUT</string>
+    <string name="house_detail_fragment_label">House Detail</string>
+    <string name="house_detail_title_description">Description</string>
+    <string name="house_detail_title_location">Location</string>
+    <string name="picture_description_house">Picture of house</string>
+    <string name="icon_description_bedrooms">Bedrooms</string>
+    <string name="icon_description_bathrooms">Bathrooms</string>
+    <string name="icon_description_size">Size</string>
+    <string name="icon_description_distance">Distance</string>
+    <string name="search_hint">Search for a home</string>
+    <string name="info_title">Design and Development</string>
+    <string name="info_by">by DTT</string>
+    <string name="info_website">d-tt.nl</string>
+    <string name="info_website_link">http://d-tt.nl</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+        volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
+        dui nec risus. Maecenas non sodales nisi, vel dictum dolor. Class aptent taciti sociosqu ad
+        litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse blandit eleifend
+        diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
+        ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.
+    </string>
+</resources>
