@@ -5,16 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.FragmentFavouritesBinding
-import com.anastasiaiu.dttrealestate.view.adapters.FavouritesListAdapter
-import com.anastasiaiu.dttrealestate.view.House
+import com.anastasiaiu.dttrealestate.view.adapter.FavouritesListAdapter
+import com.anastasiaiu.dttrealestate.model.House
 import com.anastasiaiu.dttrealestate.view.utilities.MarginItemDecoration
+import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModel
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class FavouritesFragment : Fragment() {
+
+    private var _viewModel: HouseViewModel? = null
+    private val viewModel get() = _viewModel!!
 
     private var _binding: FragmentFavouritesBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +38,12 @@ class FavouritesFragment : Fragment() {
         }
 
         return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _viewModel = ViewModelProvider(requireActivity())[HouseViewModel::class.java]
     }
 
     override fun onDestroyView() {
@@ -46,6 +56,7 @@ class FavouritesFragment : Fragment() {
             House(
                 1,
                 "1",
+                "https://picsum.photos/id/164/500",
                 45000,
                 1,
                 1,
@@ -60,6 +71,7 @@ class FavouritesFragment : Fragment() {
             House(
                 2,
                 "2",
+                "https://picsum.photos/id/164/500",
                 2,
                 2,
                 2,
@@ -74,6 +86,7 @@ class FavouritesFragment : Fragment() {
             House(
                 3,
                 "3",
+                "https://picsum.photos/id/164/500",
                 3,
                 3,
                 3,
@@ -88,6 +101,7 @@ class FavouritesFragment : Fragment() {
             House(
                 4,
                 "4",
+                "https://picsum.photos/id/164/500",
                 4,
                 4,
                 4,
@@ -102,6 +116,7 @@ class FavouritesFragment : Fragment() {
             House(
                 5,
                 "5",
+                "https://picsum.photos/id/164/500",
                 5,
                 5,
                 5,
@@ -116,6 +131,7 @@ class FavouritesFragment : Fragment() {
             House(
                 6,
                 "6",
+                "https://picsum.photos/id/164/500",
                 6,
                 6,
                 6,
@@ -130,6 +146,7 @@ class FavouritesFragment : Fragment() {
             House(
                 7,
                 "7",
+                "https://picsum.photos/id/164/500",
                 7,
                 7,
                 7,
@@ -144,6 +161,7 @@ class FavouritesFragment : Fragment() {
             House(
                 8,
                 "8",
+                "https://picsum.photos/id/164/500",
                 8,
                 8,
                 8,
@@ -158,6 +176,7 @@ class FavouritesFragment : Fragment() {
             House(
                 9,
                 "9",
+                "https://picsum.photos/id/164/500",
                 9,
                 9,
                 9,
@@ -172,6 +191,7 @@ class FavouritesFragment : Fragment() {
             House(
                 10,
                 "10",
+                "https://picsum.photos/id/164/500",
                 10,
                 10,
                 10,

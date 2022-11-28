@@ -1,20 +1,15 @@
 package com.anastasiaiu.dttrealestate.view.fragments
 
-import android.graphics.Color
-import android.graphics.ColorSpace
 import android.graphics.drawable.GradientDrawable
-import android.os.Build
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.convertTo
-import androidx.core.graphics.toColor
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.FragmentHouseDetailBinding
+import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModel
 import com.google.android.material.color.MaterialColors
 import java.util.*
 
@@ -22,6 +17,9 @@ import java.util.*
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class HouseDetailFragment : Fragment() {
+
+    private var _viewModel: HouseViewModel? = null
+    private val viewModel get() = _viewModel!!
 
     private var _binding: FragmentHouseDetailBinding? = null
     private val binding get() = _binding!!
@@ -38,6 +36,8 @@ class HouseDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        _viewModel = ViewModelProvider(requireActivity())[HouseViewModel::class.java]
 
         val backgroundColor = MaterialColors.getColor(binding.root, android.R.attr.colorBackground)
 

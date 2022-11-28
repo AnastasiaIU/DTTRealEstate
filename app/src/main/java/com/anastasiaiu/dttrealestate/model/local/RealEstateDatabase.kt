@@ -5,25 +5,25 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.anastasiaiu.dttrealestate.model.Constants.DATABASE_NAME
-import javax.inject.Inject
+import com.anastasiaiu.dttrealestate.model.House
 
-@Database(entities = [HouseEntity::class], version = 1, exportSchema = false)
-abstract class RealEstateDataBase /*@Inject constructor()*/ : RoomDatabase() {
+@Database(entities = [House::class], version = 1, exportSchema = false)
+abstract class RealEstateDatabase : RoomDatabase() {
 
     abstract fun houseDao(): HouseDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: RealEstateDataBase? = null
+        private var INSTANCE: RealEstateDatabase? = null
 
-        fun getInstance(context: Context): RealEstateDataBase = INSTANCE ?: synchronized(this) {
+        fun getInstance(context: Context): RealEstateDatabase = INSTANCE ?: synchronized(this) {
             INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
         }
 
         private fun buildDatabase(context: Context) = Room.databaseBuilder(
             context.applicationContext,
-            RealEstateDataBase::class.java,
+            RealEstateDatabase::class.java,
             DATABASE_NAME
         ).build()
     }

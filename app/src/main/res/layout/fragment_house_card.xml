@@ -32,6 +32,20 @@
             app:layout_constraintStart_toEndOf="@id/house_card_picture"
             app:layout_constraintTop_toTopOf="@id/house_card_picture" />
 
+        <ImageView
+            android:id="@+id/house_card_icon_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_regular"
+            android:layout_marginEnd="@dimen/margin_regular"
+            android:clickable="true"
+            android:contentDescription="@string/icon_description_bookmark"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_outline_bookmark_border_24"
+            app:tint="?attr/colorOnSurface" />
+
         <TextView
             android:id="@+id/house_card_location"
             android:layout_width="wrap_content"

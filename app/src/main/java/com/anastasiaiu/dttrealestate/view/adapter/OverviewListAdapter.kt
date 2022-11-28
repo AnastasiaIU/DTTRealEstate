@@ -1,13 +1,15 @@
-package com.anastasiaiu.dttrealestate.view.adapters
+package com.anastasiaiu.dttrealestate.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.FragmentHouseCardBinding
-import com.anastasiaiu.dttrealestate.view.House
+import com.anastasiaiu.dttrealestate.model.House
 import java.util.*
 
 /**
@@ -43,6 +45,7 @@ class OverviewListAdapter(private val values: List<House>) :
         val location = house.zip.replace(" ","") + " " + house.city
         val distance = (house.longitude + house.latitude).toString()
 
+        holder.housePictureImageView.load(house.imageUrl)
         holder.housePriceTextView.text = price
         holder.houseLocationTextView.text = location
         holder.houseBedroomsTextView.text = house.bedrooms.toString()
@@ -63,6 +66,7 @@ class OverviewListAdapter(private val values: List<House>) :
             }
         }
 
+        val housePictureImageView: ImageView = binding.houseCardPicture
         val housePriceTextView: TextView = binding.houseCardPrice
         val houseLocationTextView: TextView = binding.houseCardLocation
         val houseBedroomsTextView: TextView = binding.houseCardBedrooms

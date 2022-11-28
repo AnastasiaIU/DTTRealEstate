@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.FragmentOverviewBinding
-import com.anastasiaiu.dttrealestate.view.House
+import com.anastasiaiu.dttrealestate.model.remote.HouseApiStatus
+import com.anastasiaiu.dttrealestate.view.DttRealEstateActivity
+import com.anastasiaiu.dttrealestate.view.adapter.HouseListAdapter
 import com.anastasiaiu.dttrealestate.view.utilities.MarginItemDecoration
-import com.anastasiaiu.dttrealestate.view.adapters.OverviewListAdapter
+import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModel
 
 /**
 TODO: Add behavior to the search. When active hide hint and change icon. Fix focus on the search and invoking keyboard. Lose focus after exit the search.
@@ -33,11 +36,13 @@ textField.addOnEditTextAttachedListener {
  */
 class OverviewFragment : Fragment() {
 
-    //@Inject
-    //lateinit var houseList: List<House>
+    private var _viewModel: HouseViewModel? = null
+    private val viewModel get() = _viewModel!!
 
     private var _binding: FragmentOverviewBinding? = null
     private val binding get() = _binding!!
+
+    lateinit var houseListAdapter: HouseListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,8 +51,10 @@ class OverviewFragment : Fragment() {
 
         _binding = FragmentOverviewBinding.inflate(inflater, container, false)
 
+        houseListAdapter = HouseListAdapter(onclick(), onclick())
+
         binding.recyclerView.apply {
-            adapter = OverviewListAdapter(houseList)
+            adapter = houseListAdapter
 
             addItemDecoration(MarginItemDecoration(bottomMargin = resources.getDimension(R.dimen.container_margin).toInt()))
         }
@@ -55,153 +62,24 @@ class OverviewFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        _viewModel = (activity as DttRealEstateActivity).houseViewModel
+
+        viewModel.status.observe(viewLifecycleOwner, Observer { response ->
+            when(response) {
+                HouseApiStatus.LOADING -> binding.overviewFragmentToolbar.title = "Loading"
+                HouseApiStatus.ERROR -> binding.overviewFragmentToolbar.title = "Error"
+                HouseApiStatus.SUCCESS -> houseListAdapter.submitList(viewModel.housesList.value)
+            }
+        })
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-    companion object {
-        val houseList = listOf(
-            House(
-                1,
-                "1",
-                45000,
-                1,
-                1,
-                1,
-                "1",
-                "1000 VV",
-                "Den Haag",
-                1,
-                1,
-                "1"
-            ),
-            House(
-                2,
-                "2",
-                2,
-                2,
-                2,
-                2,
-                "2",
-                "2",
-                "2",
-                2,
-                2,
-                "2"
-            ),
-            House(
-                3,
-                "3",
-                3,
-                3,
-                3,
-                3,
-                "3",
-                "3",
-                "3",
-                3,
-                3,
-                "3"
-            ),
-            House(
-                4,
-                "4",
-                4,
-                4,
-                4,
-                4,
-                "4",
-                "4",
-                "4",
-                4,
-                4,
-                "4"
-            ),
-            House(
-                5,
-                "5",
-                5,
-                5,
-                5,
-                5,
-                "5",
-                "5",
-                "5",
-                5,
-                5,
-                "5"
-            ),
-            House(
-                6,
-                "6",
-                6,
-                6,
-                6,
-                6,
-                "6",
-                "6",
-                "6",
-                6,
-                6,
-                "6"
-            ),
-            House(
-                7,
-                "7",
-                7,
-                7,
-                7,
-                7,
-                "7",
-                "7",
-                "7",
-                7,
-                7,
-                "7"
-            ),
-            House(
-                8,
-                "8",
-                8,
-                8,
-                8,
-                8,
-                "8",
-                "8",
-                "8",
-                8,
-                8,
-                "8"
-            ),
-            House(
-                9,
-                "9",
-                9,
-                9,
-                9,
-                9,
-                "9",
-                "9",
-                "9",
-                9,
-                9,
-                "9"
-            ),
-            House(
-                10,
-                "10",
-                10,
-                10,
-                10,
-                10,
-                "10",
-                "10",
-                "10",
-                10,
-                10,
-                "10"
-            )
-        )
-    }
+    fun onclick() {}
 }

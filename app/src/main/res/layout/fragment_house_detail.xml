@@ -31,15 +31,32 @@
             app:srcCompat="@drawable/house_pic" />
 
         <ImageButton
+            android:id="@+id/house_detail_icon_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_regular"
             android:layout_marginTop="@dimen/margin_large"
             android:background="@android:color/transparent"
-            android:contentDescription="@string/picture_description_house"
+            android:clickable="true"
+            android:contentDescription="@string/icon_description_back"
+            android:focusable="true"
             android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/house_detail_icon_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_regular"
+            android:clickable="true"
+            android:contentDescription="@string/icon_description_bookmark"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_outline_bookmark_border_24"
             app:tint="@color/white" />
 
         <FrameLayout

@@ -5,12 +5,19 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.ActivityRealEstateAppBinding
+import com.anastasiaiu.dttrealestate.model.repository.HouseRepository
+import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModel
+import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModelFactory
 
-class RealEstateAppActivity : AppCompatActivity() {
+class DttRealEstateActivity : AppCompatActivity() {
+
+    private var _houseViewModel: HouseViewModel? = null
+    val houseViewModel get() = _houseViewModel
 
     private var _binding: ActivityRealEstateAppBinding? = null
     private val binding get() = _binding!!
@@ -31,6 +38,13 @@ class RealEstateAppActivity : AppCompatActivity() {
 
         // Set the main app theme
         setTheme(R.style.Theme_DTTRealEstate)
+
+        val repository = HouseRepository()
+
+        val viewModelProviderFactory = HouseViewModelFactory(repository)
+
+        _houseViewModel =
+            ViewModelProvider(this, viewModelProviderFactory)[HouseViewModel::class.java]
 
         _binding = ActivityRealEstateAppBinding.inflate(layoutInflater)
 
