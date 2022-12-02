@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- TODO: Organize strings -->
+
+    <!-- Application name. -->
     <string name="app_name">DTT Real Estate</string>
-    <!-- Strings used for fragments for navigation -->
+
+    <!-- Fragment labels. -->
     <string name="overview_fragment_label">DTT REAL ESTATE</string>
     <string name="favourites_fragment_label">FAVOURITES</string>
     <string name="information_fragment_label">ABOUT</string>
-    <string name="house_detail_fragment_label">House Detail</string>
-    <string name="house_detail_title_description">Description</string>
-    <string name="house_detail_title_location">Location</string>
+    <string name="house_detail_fragment_label">HOUSE DETAIL</string>
+
+    <!-- Drawable descriptions. -->
     <string name="picture_description_house">Picture of house</string>
     <string name="icon_description_bedrooms">Bedrooms</string>
     <string name="icon_description_bathrooms">Bathrooms</string>
@@ -16,13 +18,26 @@
     <string name="icon_description_distance">Distance</string>
     <string name="icon_description_bookmark">Bookmark button</string>
     <string name="icon_description_back">Back button</string>
+
+    <!-- Search field hint. -->
     <string name="search_hint">Search for a home</string>
+
+    <!-- Empty state texts. -->
+    <string name="empty_state_loading">Loading data from the service.</string>
+    <string name="empty_state_error">Unable to load data from the server.</string>
+    <string name="empty_state_search">No results found!\nPerhaps try another search!</string>
+    <string name="empty_state_favorites">No houses as favorites yet.</string>
+
+    <!-- House detail fragment's strings. -->
+    <string name="house_detail_title_description">Description</string>
+    <string name="house_detail_title_location">Location</string>
+    <string name="map_marker_title">House</string>
+
+    <!-- Information fragment's strings. -->
     <string name="info_title">Design and Development</string>
     <string name="info_by">by DTT</string>
     <string name="info_website">d-tt.nl</string>
     <string name="info_website_link">http://d-tt.nl</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -32,4 +47,5 @@
         diam, vel rutrum tellus vulputate quis. Aliquam eget libero aliquet, imperdiet nisl a,
         ornare ex. Sed rhoncus est ut libero porta lobortis. Fusce in dictum tellus.
     </string>
+
 </resources>

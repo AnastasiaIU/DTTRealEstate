@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
@@ -21,6 +21,44 @@
         android:layout_marginStart="@dimen/container_margin"
         android:layout_marginEnd="@dimen/container_margin"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/fragment_house_card" />
+        tools:listitem="@layout/house_card_view" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/empty_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/container_margin"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/empty_state_image"
+                android:layout_width="@dimen/empty_state_picture_width"
+                android:layout_height="@dimen/empty_state_picture_height"
+                android:importantForAccessibility="no"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/search_state_empty" />
+
+            <TextView
+                android:id="@+id/empty_state_text"
+                style="@style/TextAppearance.DTTRealEstate.Hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_margin"
+                android:text="@string/empty_state_favorites"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

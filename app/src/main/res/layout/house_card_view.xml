@@ -20,8 +20,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearance="@style/ShapeAppearance.DTTRealEstate.RoundedSmallComponent"
-            app:srcCompat="@drawable/house_pic" />
+            app:shapeAppearance="@style/ShapeAppearance.DTTRealEstate.RoundedSmallComponent" />
 
         <TextView
             android:id="@+id/house_card_price"
@@ -34,10 +33,10 @@
 
         <ImageView
             android:id="@+id/house_card_icon_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/bookmark_icon_size"
+            android:layout_height="@dimen/bookmark_icon_size"
             android:layout_marginTop="@dimen/margin_regular"
-            android:layout_marginEnd="@dimen/margin_regular"
+            android:layout_marginEnd="@dimen/bookmark_margin_end"
             android:clickable="true"
             android:contentDescription="@string/icon_description_bookmark"
             android:focusable="true"

@@ -1,30 +1,26 @@
 package com.anastasiaiu.dttrealestate.view
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.ActivityRealEstateAppBinding
-import com.anastasiaiu.dttrealestate.model.repository.HouseRepository
-import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModel
-import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModelFactory
 
+/**
+ * The main activity of the application.
+ */
 class DttRealEstateActivity : AppCompatActivity() {
-
-    private var _houseViewModel: HouseViewModel? = null
-    val houseViewModel get() = _houseViewModel
-
-    private var _binding: ActivityRealEstateAppBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        // Set the splash screen theme
+        // Set the splash screen theme.
         setTheme(R.style.Theme_App_SplashScreen)
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -36,38 +32,45 @@ class DttRealEstateActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
-        // Set the main app theme
+        // Set the main theme for the application.
         setTheme(R.style.Theme_DTTRealEstate)
 
-        val repository = HouseRepository()
+        // Request the location permission if it not granted yet.
+        try {
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    101
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
-        val viewModelProviderFactory = HouseViewModelFactory(repository)
-
-        _houseViewModel =
-            ViewModelProvider(this, viewModelProviderFactory)[HouseViewModel::class.java]
-
-        _binding = ActivityRealEstateAppBinding.inflate(layoutInflater)
-
+        // Inflate layout.
+        val binding = ActivityRealEstateAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        // Set navigation bar.
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        binding.bottomNavigation.setupWithNavController(navHostFragment.navController)
 
-        val navController = navHostFragment.navController
-
-        binding.bottomNavigation.setupWithNavController(navController)
-
-        // TODO: Fix description
-        // Fix status bar background color after the splash screen. Set colors for supporting dark theme.
+        // Fix status bar background color after the splash screen for API 28 and lower.
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
 
             // Set the background color of the activity to black.
-            // Fixes the issue with white icons at the status bar.
+            // Fixes the issue with the white icons at the status bar.
             binding.root.setBackgroundColor(
                 ContextCompat.getColor(applicationContext, R.color.black)
             )
 
-            // Set the background color of the fragment container according to the app theme.
+            // Set the background color of the container for fragments according to the app theme.
             binding.navHostFragment.setBackgroundColor(
                 ContextCompat.getColor(applicationContext, R.color.light_gray)
             )

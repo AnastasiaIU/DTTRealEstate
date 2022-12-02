@@ -3,15 +3,12 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.kapt'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
     namespace 'com.anastasiaiu.dttrealestate'
     compileSdk 33
-
-    def apikeyPropertiesFile = rootProject.file("apikey.properties")
-    def apikeyProperties = new Properties()
-    apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
     defaultConfig {
         applicationId "com.anastasiaiu.dttrealestate"
@@ -19,8 +16,6 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-
-        buildConfigField("String", "DTT_ACCESS_KEY", apikeyProperties['DTT_ACCESS_KEY'])
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,11 +39,17 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.9.0'
+
+    def core_version = '1.9.0'
+    def nav_version = '2.5.3'
+    def lifecycle_version = '2.5.1'
+    def room_version = '2.4.3'
+
+    implementation "androidx.core:core:$core_version"
+    implementation "androidx.core:core-ktx:$core_version"
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.8.0-alpha03'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.core:core:1.9.0'
 
     testImplementation 'junit:junit:4.13.2'
 
@@ -60,15 +61,22 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
 
     // Navigation Component
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    // Livecycle
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
     // Splash Screen
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     // Room
-    implementation 'androidx.room:room-runtime:2.4.3'
-    kapt 'androidx.room:room-compiler:2.4.3'
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -79,4 +87,9 @@ dependencies {
 
     // Coil
     implementation 'io.coil-kt:coil:2.2.2'
+
+    // Google Play services
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.maps.android:android-maps-utils:2.3.0'
 }

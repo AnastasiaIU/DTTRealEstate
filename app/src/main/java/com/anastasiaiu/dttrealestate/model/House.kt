@@ -4,9 +4,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
-import com.anastasiaiu.dttrealestate.model.Constants.BASE_URL
-import com.anastasiaiu.dttrealestate.model.Constants.HOUSES_TABLE_NAME
+import com.anastasiaiu.dttrealestate.model.ModelConstants.BASE_URL
+import com.anastasiaiu.dttrealestate.model.ModelConstants.HOUSES_TABLE_NAME
 
+/**
+ * [House] data class represents the response object and the Room entity of the database table.
+ */
 @Entity(tableName = HOUSES_TABLE_NAME)
 @Serializable
 data class House(
@@ -26,5 +29,5 @@ data class House(
     val longitude: Int,
     val createdDate: String,
     @ColumnInfo(name = "is_bookmarked")
-    var isBookMarked: Boolean = false
+    var isBookmarked: Boolean = false
 )

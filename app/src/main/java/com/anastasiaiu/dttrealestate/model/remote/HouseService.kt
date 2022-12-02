@@ -7,6 +7,9 @@ import retrofit2.http.Headers
 
 private const val HEADER_ACCESS_KEY = "access-key: $DTT_ACCESS_KEY"
 
+/**
+ * Retrofit interface.
+ */
 interface HouseService {
 
     @Headers(HEADER_ACCESS_KEY)

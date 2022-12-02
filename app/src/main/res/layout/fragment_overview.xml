@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -12,10 +12,12 @@
         style="@style/TextAppearance.DTTRealEstate.TitleLarge"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:title="@string/overview_fragment_label" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/searchField"
+        android:id="@+id/search_layout"
         style="@style/TextAppearance.DTTRealEstate.Hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,9 +33,11 @@
         app:endIconMode="custom"
         app:endIconTint="?attr/colorOnSurface"
         app:hintTextAppearance="@style/TextAppearance.DTTRealEstate.Hint"
+        app:hintTextColor="@android:color/transparent"
         app:shapeAppearance="@style/ShapeAppearance.DTTRealEstate.RoundedSmallComponent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/search_edit_text"
             style="@style/TextAppearance.DTTRealEstate.BodyStrong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -49,6 +53,43 @@
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginEnd="@dimen/container_margin"
         app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/fragment_house_card" />
+        tools:listitem="@layout/house_card_view" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/empty_state_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/container_margin"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/empty_state_image"
+                android:layout_width="@dimen/empty_state_picture_width"
+                android:layout_height="@dimen/empty_state_picture_height"
+                android:importantForAccessibility="no"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/search_state_empty" />
+
+            <TextView
+                android:id="@+id/empty_state_text"
+                style="@style/TextAppearance.DTTRealEstate.Hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_margin"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

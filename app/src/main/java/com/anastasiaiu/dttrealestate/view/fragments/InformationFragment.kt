@@ -11,21 +11,20 @@ import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.FragmentInformationBinding
 
 /**
- * A simple [Fragment] subclass as the second destination in the navigation.
+ * [InformationFragment] displays the information about the application and the developer.
  */
 class InformationFragment : Fragment() {
 
-    private var _binding: FragmentInformationBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentInformationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentInformationBinding.inflate(inflater, container, false)
-        return binding.root
+        binding = FragmentInformationBinding.inflate(inflater, container, false)
 
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,12 +33,6 @@ class InformationFragment : Fragment() {
         binding.infoWebsite.setOnClickListener {
             openWebsite(getString(R.string.info_website_link))
         }
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     /**

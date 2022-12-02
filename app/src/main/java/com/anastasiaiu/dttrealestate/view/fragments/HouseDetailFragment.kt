@@ -5,31 +5,47 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import coil.load
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.FragmentHouseDetailBinding
-import com.anastasiaiu.dttrealestate.viewmodel.HouseViewModel
+import com.anastasiaiu.dttrealestate.model.House
+import com.anastasiaiu.dttrealestate.view.utilities.FormatValue
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.color.MaterialColors
-import java.util.*
 
 /**
- * A simple [Fragment] subclass as the default destination in the navigation.
+ * [HouseDetailFragment] displays the details of a house.
  */
-class HouseDetailFragment : Fragment() {
+class HouseDetailFragment : BaseFragment() {
 
-    private var _viewModel: HouseViewModel? = null
-    private val viewModel get() = _viewModel!!
+    private lateinit var binding: FragmentHouseDetailBinding
 
-    private var _binding: FragmentHouseDetailBinding? = null
-    private val binding get() = _binding!!
+    // Google map callback to be displayed when it is ready.
+    private val mapCallback = OnMapReadyCallback { googleMap ->
+
+        val location = LatLng(
+            viewModel.currentHouse.latitude.toDouble(),
+            viewModel.currentHouse.longitude.toDouble()
+        )
+
+        val marker = MarkerOptions().position(location).title(getString(R.string.map_marker_title))
+
+        googleMap.apply {
+            addMarker(marker)
+            animateCamera(CameraUpdateFactory.newLatLngZoom(location, 17.0f))
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentHouseDetailBinding.inflate(inflater, container, false)
+        binding = FragmentHouseDetailBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -37,46 +53,88 @@ class HouseDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _viewModel = ViewModelProvider(requireActivity())[HouseViewModel::class.java]
-
+        // Set the custom rounded container.
         val backgroundColor = MaterialColors.getColor(binding.root, android.R.attr.colorBackground)
-
         customRoundedCornersView(binding.roundedContainer, backgroundColor)
 
-        val localCurrency =
-            if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
-                Currency.getInstance(Locale.getDefault()).symbol ?: ""
-            } else {
-                ""
+        // Current house to be displayed.
+        val house = viewModel.currentHouse
+
+        // Distance to a house from the device location.
+        val distance = getDistanceFromDevice(house.latitude.toDouble(), house.longitude.toDouble())
+
+        setBookmarkIcon(house)
+
+        binding.apply {
+            houseDetailPicture.load(house.imageUrl)
+            houseDetailPrice.text = FormatValue.formatPrice(house.price)
+            houseDetailBedrooms.text = house.bedrooms.toString()
+            houseDetailBathrooms.text = house.bathrooms.toString()
+            houseDetailSize.text = house.size.toString()
+            houseDetailDistance.text = FormatValue.formatDistance(distance)
+            houseDetailTextDescription.text = house.description
+
+            // Set onClickListeners for the card and the bookmark.
+            houseDetailIconBack.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
+            houseDetailIconBookmark.setOnClickListener { onBookmarkClicked(house) }
+        }
 
-        val price = localCurrency + "%,d".format(68000)
-
-        binding.houseDetailPrice.text = price
-        binding.houseDetailBedrooms.text = "3"
-        binding.houseDetailBathrooms.text = "2"
-        binding.houseDetailSize.text = "400"
-        binding.houseDetailDistance.text = "65"
+        // Set the Google map.
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment?.getMapAsync(mapCallback)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
+    /**
+     * Creates custom container with rounded corners.
+     */
     private fun customRoundedCornersView(view: View, backgroundColor: Int) {
 
         val cornerRadius = resources.getDimension(
             R.dimen.house_detail_rounded_container_corner_radius
         )
 
-        val shape = GradientDrawable()
+        val gradientDrawable = GradientDrawable()
 
-        shape.shape = GradientDrawable.RECTANGLE
-        shape.cornerRadii =
-            floatArrayOf(cornerRadius, cornerRadius, cornerRadius, cornerRadius, 0f, 0f, 0f, 0f)
-        shape.setColor(backgroundColor)
+        gradientDrawable.apply {
+            shape = GradientDrawable.RECTANGLE
+            cornerRadii = floatArrayOf(
+                cornerRadius, cornerRadius, cornerRadius, cornerRadius, 0f, 0f, 0f, 0f
+            )
+            setColor(backgroundColor)
+        }
 
-        view.background = shape
+        view.background = gradientDrawable
+    }
+
+    /**
+     * Calls the function from the viewModel to insert a house
+     * into the database with a changed bookmark state.
+     */
+    private fun onBookmarkClicked(house: House) {
+
+        house.isBookmarked = !house.isBookmarked
+
+        viewModel.addBookmarkedHouseToDatabase(house)
+
+        setBookmarkIcon(house)
+    }
+
+    /**
+     * Sets the bookmark icon depending on the state.
+     */
+    private fun setBookmarkIcon(house: House) {
+
+        // Get the bookmark icon depending on the state.
+        val isHouseBookmarked = house.isBookmarked
+        val bookmarkIcon = if (isHouseBookmarked) {
+            R.drawable.ic_baseline_bookmark_24
+        } else {
+            R.drawable.ic_outline_bookmark_border_24
+        }
+
+        // Set the bookmark icon.
+        binding.houseDetailIconBookmark.setImageResource(bookmarkIcon)
     }
 }

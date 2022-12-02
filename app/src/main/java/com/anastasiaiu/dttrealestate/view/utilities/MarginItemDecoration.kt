@@ -4,6 +4,10 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * [MarginItemDecoration] serves for adding a layout offset
+ * between item views at the adapter's data set.
+ */
 class MarginItemDecoration(
     private val topMargin: Int = 0,
     private val bottomMargin: Int = 0,

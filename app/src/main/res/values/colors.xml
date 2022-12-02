@@ -20,4 +20,5 @@
     <color name="dark_theme_surface">#FF313131</color>
     <color name="dark_theme_surface_variant">#FF252525</color>
     <color name="dark_theme_on_surface_variant">#66000000</color>
+
 </resources>

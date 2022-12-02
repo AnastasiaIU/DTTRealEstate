@@ -1,36 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- TODO: Organize light theme -->
     <!-- Base application light theme. -->
     <style name="Base.Theme.DTTRealEstate" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/white</item>
-        <!--<item name="colorOnPrimary">@color/strong</item>
-        <item name="colorPrimaryContainer">@color/strong</item>
-        <item name="colorOnPrimaryContainer">@color/strong</item>
-        <item name="colorPrimaryInverse">@color/strong</item>
-        <item name="colorSecondary">@color/strong</item>
-        <item name="colorOnSecondary">@color/strong</item>-->
         <item name="colorSecondaryContainer">@color/white</item>
         <item name="colorOnSecondaryContainer">@color/strong</item>
-        <!--<item name="colorTertiary">@color/strong</item>
-        <item name="colorOnTertiary">@color/strong</item>
-        <item name="colorTertiaryContainer">@color/strong</item>
-        <item name="colorOnTertiaryContainer">@color/strong</item>
-        <item name="colorError">@color/strong</item>
-        <item name="colorOnError">@color/strong</item>
-        <item name="colorErrorContainer">@color/strong</item>
-        <item name="colorOnErrorContainer">@color/strong</item>
-        <item name="colorOutline">@color/strong</item>
-        <item name="colorOutlineVariant">@color/strong</item>-->
         <item name="android:colorBackground">@color/light_gray</item>
-        <!--<item name="colorOnBackground">@color/strong</item>-->
         <item name="colorSurface">@color/white</item>
         <item name="colorOnSurface">@color/medium</item>
         <item name="colorSurfaceVariant">@color/dark_gray</item>
         <item name="colorOnSurfaceVariant">@color/light</item>
-        <!--<item name="colorSurfaceInverse">@color/strong</item>
-        <item name="colorOnSurfaceInverse">@color/strong</item>-->
+
         <!-- Text appearances. -->
         <item name="textAppearanceTitleLarge">@style/TextAppearance.DTTRealEstate.TitleLarge</item>
         <item name="textAppearanceTitleMedium">@style/TextAppearance.DTTRealEstate.TitleMedium</item>

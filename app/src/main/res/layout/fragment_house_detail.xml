@@ -27,8 +27,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/house_pic" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/house_detail_icon_back"
@@ -47,10 +46,10 @@
 
         <ImageView
             android:id="@+id/house_detail_icon_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/bookmark_icon_size"
+            android:layout_height="@dimen/bookmark_icon_size"
             android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginEnd="@dimen/margin_regular"
+            android:layout_marginEnd="@dimen/bookmark_margin_end"
             android:clickable="true"
             android:contentDescription="@string/icon_description_bookmark"
             android:focusable="true"
@@ -207,21 +206,13 @@
                 android:text="@string/house_detail_title_location"
                 android:textAppearance="@style/TextAppearance.DTTRealEstate.TitleMedium" />
 
-            <!--<androidx.fragment.app.FragmentContainerView
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".MapsFragment" />-->
-
-            <ImageView
-                android:id="@+id/map_picture"
-                android:layout_width="match_parent"
                 android:layout_height="@dimen/map_height"
                 android:layout_marginBottom="@dimen/container_margin"
-                android:contentDescription="@string/picture_description_house"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/house_pic" />
+                tools:context=".MapsFragment" />
 
         </LinearLayout>
 
