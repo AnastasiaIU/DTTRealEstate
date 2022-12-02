@@ -3,6 +3,7 @@ package com.anastasiaiu.dttrealestate.view
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -59,7 +60,21 @@ class DttRealEstateActivity : AppCompatActivity() {
         // Set navigation bar.
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        binding.bottomNavigation.setupWithNavController(navHostFragment.navController)
+
+        val navController = navHostFragment.navController
+
+        binding.bottomNavigation.setupWithNavController(navController)
+
+        // Hide bottom navigation bar at the house details fragment
+        // for the correct navigation in the application.
+        navController.addOnDestinationChangedListener { _, navDestination, _ ->
+
+            if (navDestination.id == R.id.house_detail_fragment) {
+                binding.bottomNavigation.visibility = View.GONE
+            } else {
+                binding.bottomNavigation.visibility = View.VISIBLE
+            }
+        }
 
         // Fix status bar background color after the splash screen for API 28 and lower.
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
