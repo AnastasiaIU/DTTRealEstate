@@ -85,6 +85,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true"
+                    android:paddingEnd="@dimen/padding_regular"
+                    android:paddingBottom="@dimen/padding_regular"
                     android:text="@string/info_website"
                     android:textAppearance="@style/TextAppearance.DTTRealEstate.BodyStrong"
                     android:textColor="@color/hyperlink" />

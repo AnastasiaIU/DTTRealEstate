@@ -153,10 +153,17 @@ class OverviewFragment : BaseFragment() {
 
                 viewModel.apply {
                     searchQuery.postValue(editable.toString())
-                    searchHousesList.postValue(viewModel.search(editable.toString()))
+                    search(editable.toString())
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Set focus on the search field if it is not empty.
+        if (binding.searchEditText.text!!.isNotBlank()) binding.searchEditText.requestFocus()
     }
 
     /**

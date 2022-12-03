@@ -110,13 +110,59 @@ class HouseViewModel(private val application: DttRealEstateApplication) : ViewMo
     }
 
     /**
-     * Searches for houses with the provided value at the database and returns the result.
+     * Searches for houses with the provided value at the database
+     * and posts results to the [HouseViewModel].
      */
-    suspend fun search(searchValue: String): List<House> {
+    suspend fun search(searchValue: String) {
 
-        val searchQuery = "%${searchValue.replace(" ", "")}%"
+        // List of values to search.
+        val searchValueList = mutableListOf<String>()
 
-        return application.repository.searchAtDatabase(searchQuery)
+        // Result list of the search.
+        val searchResultList = mutableListOf<House>()
+
+        searchValueList.apply {
+
+            // Add all values to be searched.
+            addAll(searchValue.split(' '))
+
+            forEachIndexed { index, string ->
+
+                if (string.isNotBlank()) {
+
+                    if (index == 0) {
+
+                        // Add search result for the first string to the results.
+                        searchResultList.addAll(
+                            application.repository.searchAtDatabase(string)
+                        )
+
+                    } else {
+
+                        // Search result for the current string.
+                        val currentSearchResult = application.repository.searchAtDatabase(string)
+
+                        // List of result of already performed searches.
+                        val previousSearchResult = mutableListOf<House>()
+
+                        previousSearchResult.apply {
+
+                            // Add all existed values.
+                            addAll(searchResultList)
+
+                            // Remove all not matching results.
+                            forEach { house ->
+                                if (!currentSearchResult.contains(house)) {
+                                    searchResultList.remove(house)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        searchHousesList.postValue(searchResultList)
     }
 }
 

@@ -25,6 +25,9 @@ interface HouseDao {
     @Query("SELECT * FROM houses WHERE is_bookmarked = 1 ORDER BY price")
     fun getAllBookmarkedHouses(): Flow<List<House>>
 
-    @Query("SELECT * FROM houses WHERE city LIKE :searchQuery OR zip LIKE :searchQuery ORDER BY price")
+    @Query(
+        "SELECT * FROM houses WHERE city LIKE '%' || :searchQuery || '%' " +
+                "OR zip LIKE '%' || :searchQuery || '%' ORDER BY price"
+    )
     suspend fun searchAtDatabase(searchQuery: String): List<House>
 }

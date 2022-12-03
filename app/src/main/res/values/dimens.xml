@@ -9,12 +9,13 @@
     <dimen name="icon_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="detail_text_margin">4dp</dimen>
-    <dimen name="bookmark_margin_end">20dp</dimen>
+
+    <!-- Padding dimensions. -->
+    <dimen name="padding_regular">16dp</dimen>
 
     <!-- Drawables size dimensions. -->
     <dimen name="house_card_picture_size">75dp</dimen>
     <dimen name="house_card_icon_size">14dp</dimen>
-    <dimen name="bookmark_icon_size">28dp</dimen>
 
     <!-- Widths and heights dimensions. -->
     <dimen name="house_detail_picture_height">220dp</dimen>
