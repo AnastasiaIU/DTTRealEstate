@@ -2,13 +2,15 @@ package com.anastasiaiu.dttrealestate.view
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.anastasiaiu.dttrealestate.R
@@ -20,17 +22,6 @@ import com.anastasiaiu.dttrealestate.databinding.ActivityRealEstateAppBinding
 class DttRealEstateActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        // Set the splash screen theme.
-        setTheme(R.style.Theme_App_SplashScreen)
-
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-        )
-
         super.onCreate(savedInstanceState)
 
         // Set the main theme for the application.
@@ -55,6 +46,7 @@ class DttRealEstateActivity : AppCompatActivity() {
 
         // Inflate layout.
         val binding = ActivityRealEstateAppBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
 
         // Set navigation bar.
@@ -76,19 +68,21 @@ class DttRealEstateActivity : AppCompatActivity() {
             }
         }
 
-        // Fix status bar background color after the splash screen for API 28 and lower.
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
-
-            // Set the background color of the activity to black.
-            // Fixes the issue with the white icons at the status bar.
-            binding.root.setBackgroundColor(
-                ContextCompat.getColor(applicationContext, R.color.black)
-            )
-
-            // Set the background color of the container for fragments according to the app theme.
-            binding.navHostFragment.setBackgroundColor(
-                ContextCompat.getColor(applicationContext, R.color.light_gray)
-            )
+        // Hide the status bar with white icons for API levels 22 and lower.
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            hideStatusBar()
         }
+    }
+
+    private fun hideStatusBar() {
+
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+
+        // Configure the behavior of the hidden system bars.
+        windowInsetsController.systemBarsBehavior =
+            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+
+        // Hide the status bar.
+        windowInsetsController.hide(WindowInsetsCompat.Type.statusBars())
     }
 }

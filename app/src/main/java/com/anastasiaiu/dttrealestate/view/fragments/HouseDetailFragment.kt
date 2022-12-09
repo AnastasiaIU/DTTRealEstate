@@ -1,21 +1,26 @@
 package com.anastasiaiu.dttrealestate.view.fragments
 
+import android.content.res.Configuration
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.*
 import coil.load
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.FragmentHouseDetailBinding
 import com.anastasiaiu.dttrealestate.model.House
 import com.anastasiaiu.dttrealestate.view.utilities.FormatValue
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.color.MaterialColors
+
 
 /**
  * [HouseDetailFragment] displays the details of a house.
@@ -23,6 +28,8 @@ import com.google.android.material.color.MaterialColors
 class HouseDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentHouseDetailBinding
+
+    private lateinit var windowInsetsController: WindowInsetsControllerCompat
 
     // Google map callback to be displayed when it is ready.
     private val mapCallback = OnMapReadyCallback { googleMap ->
@@ -37,6 +44,14 @@ class HouseDetailFragment : BaseFragment() {
         googleMap.apply {
             addMarker(marker)
             animateCamera(CameraUpdateFactory.newLatLngZoom(location, 17.0f))
+            setOnCameraMoveStartedListener {
+                if (it == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                    binding.scrollView.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+            setOnCameraMoveCanceledListener {
+                binding.scrollView.requestDisallowInterceptTouchEvent(false)
+            }
         }
     }
 
@@ -52,6 +67,22 @@ class HouseDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+            view.doOnAttach {
+                it.updatePadding(
+                    bottom = requireActivity().window.decorView.rootWindowInsets.getInsets(
+                        WindowInsetsCompat.Type.mandatorySystemGestures()
+                    ).bottom
+                )
+            }
+        }
+
+        windowInsetsController = WindowCompat.getInsetsController(
+            requireActivity().window,
+            requireActivity().window.decorView
+        )
 
         // Set the custom rounded container.
         val backgroundColor = MaterialColors.getColor(binding.root, android.R.attr.colorBackground)
@@ -71,8 +102,13 @@ class HouseDetailFragment : BaseFragment() {
             houseDetailBedrooms.text = house.bedrooms.toString()
             houseDetailBathrooms.text = house.bathrooms.toString()
             houseDetailSize.text = house.size.toString()
-            houseDetailDistance.text = FormatValue.formatDistance(distance)
             houseDetailTextDescription.text = house.description
+
+            if (distance == null) {
+                houseDetailIconDistance.visibility = View.GONE
+            } else {
+                houseDetailDistance.text = FormatValue.formatDistance(distance)
+            }
 
             // Set onClickListeners for the card and the bookmark.
             houseDetailIconBack.setOnClickListener {
@@ -84,6 +120,28 @@ class HouseDetailFragment : BaseFragment() {
         // Set the Google map.
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(mapCallback)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, false)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            windowInsetsController.isAppearanceLightStatusBars = false
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            windowInsetsController.isAppearanceLightStatusBars =
+                resources.configuration.uiMode and
+                        Configuration.UI_MODE_NIGHT_MASK != Configuration.UI_MODE_NIGHT_YES
+        }
     }
 
     /**

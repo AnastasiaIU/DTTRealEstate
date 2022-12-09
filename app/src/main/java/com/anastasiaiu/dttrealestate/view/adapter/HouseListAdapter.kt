@@ -1,6 +1,7 @@
 package com.anastasiaiu.dttrealestate.view.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,7 +16,7 @@ import com.anastasiaiu.dttrealestate.view.utilities.FormatValue
  * [HouseListAdapter] for displaying the [House].
  */
 class HouseListAdapter(
-    private val distanceToLocation: (Double, Double) -> Double,
+    private val distanceToLocation: (Double, Double) -> Double?,
     private val bookmarkOnClickListener: (House, Int) -> Unit,
     private val houseCardOnClickListener: (House) -> Unit
 ) : ListAdapter<House, HouseListAdapter.ViewHolder>(DiffCallback) {
@@ -25,7 +26,7 @@ class HouseListAdapter(
 
         fun bind(
             house: House,
-            distanceToLocation: (Double, Double) -> Double,
+            distanceToLocation: (Double, Double) -> Double?,
             bookmarkOnClickListener: (House, Int) -> Unit,
             houseCardOnClickListener: (House) -> Unit
         ) {
@@ -48,8 +49,13 @@ class HouseListAdapter(
                 houseCardBedrooms.text = house.bedrooms.toString()
                 houseCardBathrooms.text = house.bathrooms.toString()
                 houseCardSize.text = house.size.toString()
-                houseCardDistance.text = FormatValue.formatDistance(distance)
                 houseCardIconBookmark.setImageResource(bookmarkIcon)
+
+                if (distance == null) {
+                    houseCardIconDistance.visibility = View.GONE
+                } else {
+                    houseCardDistance.text = FormatValue.formatDistance(distance)
+                }
 
                 // Set onClickListeners for the card and the bookmark.
                 root.setOnClickListener { houseCardOnClickListener(house) }

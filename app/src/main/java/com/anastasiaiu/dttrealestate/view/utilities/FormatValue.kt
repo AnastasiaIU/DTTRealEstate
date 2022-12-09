@@ -16,5 +16,5 @@ object FormatValue {
         return house.zip.replace(" ", "") + " " + house.city
     }
 
-    fun formatDistance(kilometers: Double): String = "%.1f".format(kilometers)
+    fun formatDistance(kilometers: Double): String = "%.1f".format(kilometers) + " km"
 }

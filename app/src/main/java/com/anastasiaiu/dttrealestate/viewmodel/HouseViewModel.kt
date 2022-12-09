@@ -11,10 +11,6 @@ import com.anastasiaiu.dttrealestate.view.utilities.HouseApiStatus
 import com.google.android.gms.location.LocationServices
 import kotlinx.coroutines.launch
 
-// Amsterdam coordinates as the default location of the device.
-private const val DEFAULT_LATITUDE = 52.3547925
-private const val DEFAULT_LONGITUDE = 4.7638773
-
 /**
  * The shared [HouseViewModel] holds data and methods for [OverviewFragment],
  * [FavouritesFragment] and [HouseDetailFragment].
@@ -43,10 +39,10 @@ class HouseViewModel(private val application: DttRealEstateApplication) : ViewMo
     lateinit var currentHouse: House
 
     // Latitude of the device. Set to default value initially.
-    var deviceLatitude = DEFAULT_LATITUDE
+    var deviceLatitude: Double? = null
 
     // Longitude of the device. Set to default value initially.
-    var deviceLongitude = DEFAULT_LONGITUDE
+    var deviceLongitude: Double? = null
 
     init {
         getHouses()

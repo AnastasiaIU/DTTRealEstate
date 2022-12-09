@@ -22,9 +22,11 @@ abstract class BaseFragment : Fragment() {
     /**
      * Returns the distance in kilometers between the device and the provided coordinates.
      */
-    fun getDistanceFromDevice(latitude: Double, longitude: Double): Double {
+    fun getDistanceFromDevice(latitude: Double, longitude: Double): Double? {
 
-        val startLatLng = LatLng(viewModel.deviceLatitude, viewModel.deviceLongitude)
+        if (viewModel.deviceLatitude == null || viewModel.deviceLongitude == null) return null
+
+        val startLatLng = LatLng(viewModel.deviceLatitude!!, viewModel.deviceLongitude!!)
         val endLatLng = LatLng(latitude, longitude)
 
         return SphericalUtil.computeDistanceBetween(startLatLng, endLatLng) / 1000

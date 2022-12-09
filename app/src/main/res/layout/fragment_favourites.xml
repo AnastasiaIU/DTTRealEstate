@@ -1,64 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/favourites_fragment_toolbar"
         style="@style/TextAppearance.DTTRealEstate.TitleLarge"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:title="@string/favourites_fragment_label" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:name="com.anastasiaiu.dttrealestate.view.fragments.OverviewFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/no_dp"
         android:layout_marginStart="@dimen/container_margin"
         android:layout_marginEnd="@dimen/container_margin"
         app:layoutManager="LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/favourites_fragment_toolbar"
         tools:listitem="@layout/house_card_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/empty_state_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/no_dp"
         android:layout_margin="@dimen/container_margin"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/favourites_fragment_toolbar">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/empty_state_image"
+            android:layout_width="@dimen/empty_state_picture_width"
+            android:layout_height="@dimen/empty_state_picture_height"
+            android:importantForAccessibility="no"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toTopOf="@id/empty_state_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:srcCompat="@drawable/search_state_empty" />
+
+        <TextView
+            android:id="@+id/empty_state_text"
+            style="@style/TextAppearance.DTTRealEstate.Hint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:layout_marginTop="@dimen/text_margin"
+            android:text="@string/empty_state_favorites"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/empty_state_image"
-                android:layout_width="@dimen/empty_state_picture_width"
-                android:layout_height="@dimen/empty_state_picture_height"
-                android:importantForAccessibility="no"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/search_state_empty" />
-
-            <TextView
-                android:id="@+id/empty_state_text"
-                style="@style/TextAppearance.DTTRealEstate.Hint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/text_margin"
-                android:text="@string/empty_state_favorites"
-                android:textAlignment="center" />
-
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/empty_state_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
