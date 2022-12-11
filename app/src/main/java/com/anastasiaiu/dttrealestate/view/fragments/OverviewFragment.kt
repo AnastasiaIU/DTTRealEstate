@@ -14,11 +14,10 @@ import com.anastasiaiu.dttrealestate.model.House
 import com.anastasiaiu.dttrealestate.view.adapter.HouseListAdapter
 import com.anastasiaiu.dttrealestate.view.utilities.HouseApiStatus
 import com.anastasiaiu.dttrealestate.view.utilities.MarginItemDecoration
+import com.anastasiaiu.dttrealestate.view.utilities.ViewConstants.SEARCH_FIELD_DELAY
+import com.anastasiaiu.dttrealestate.view.utilities.ViewConstants.SOFT_INPUT_NO_FLAGS
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 /**
  * [OverviewFragment] displays a list of the available houses.
@@ -27,6 +26,7 @@ class OverviewFragment : BaseFragment() {
 
     private lateinit var binding: FragmentOverviewBinding
     private lateinit var houseListAdapter: HouseListAdapter
+    private var job: Job? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,10 +38,11 @@ class OverviewFragment : BaseFragment() {
         houseListAdapter = HouseListAdapter(
             ::getDistanceFromDevice,
             ::onBookmarkClicked,
-            ::houseCardOnClickListener
+            ::setCurrentHouseAtViewModel
         )
 
         binding.recyclerView.apply {
+
             adapter = houseListAdapter
 
             addItemDecoration(
@@ -57,16 +58,55 @@ class OverviewFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Observe status of the empty state to track if it is needed to be shown.
-        viewModel.emptyState.observe(viewLifecycleOwner) { statusIsTrue ->
-            if (statusIsTrue) {
-                binding.emptyStateContainer.visibility = View.VISIBLE
-            } else {
-                binding.emptyStateContainer.visibility = View.GONE
-            }
-        }
+        // Set observers.
+        observeEmptyStateStatus(binding.emptyStateContainer)
+        observeRespondStatus()
+        observeSearchQuery()
 
-        // Observe status of the respond from the server.
+        // Set behavior for the search field.
+        setSearchFieldBehavior()
+
+        // Set text change listener at the search field.
+        addSearchQuery()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // Set focus on the search field if it is not empty.
+        binding.searchEditText.text?.let {
+            if (it.isNotBlank()) binding.searchEditText.requestFocus()
+        }
+    }
+
+    /**
+     * Calls the function from the view model to insert a house
+     * into the database with a changed bookmark state.
+     */
+    private fun onBookmarkClicked(house: House, position: Int) {
+
+        viewModel.addBookmarkedHouseToDatabase(house)
+
+        binding.recyclerView.adapter?.notifyItemChanged(position)
+    }
+
+    /**
+     * Sets the [house] to be the current house at the view model.
+     * Navigates to the house detail view.
+     */
+    override fun setCurrentHouseAtViewModel(house: House) {
+        super.setCurrentHouseAtViewModel(house)
+
+        binding.root.findNavController().navigate(
+            R.id.action_overview_fragment_to_house_detail_fragment
+        )
+    }
+
+    /**
+     * Sets observer to the status of the respond from the server.
+     */
+    private fun observeRespondStatus() {
+
         viewModel.status.observe(viewLifecycleOwner) { response ->
             when (response) {
                 HouseApiStatus.LOADING -> {
@@ -88,8 +128,13 @@ class OverviewFragment : BaseFragment() {
                 }
             }
         }
+    }
 
-        // Observe search query to show results of the search or the full list of houses.
+    /**
+     * Sets observer to the search query to show results of the search or the full list of houses.
+     */
+    private fun observeSearchQuery() {
+
         viewModel.searchQuery.observe(viewLifecycleOwner) { query ->
 
             if (query.isNotBlank()) {
@@ -113,78 +158,81 @@ class OverviewFragment : BaseFragment() {
                 }
             }
         }
+    }
 
+    /**
+     * Sets the trailing icon and it's behavior at the search field.
+     */
+    private fun setSearchFieldBehavior() {
 
-        // Add the clear text icon's visibility and it's behavior for the search.
+        val inputMethodManager = requireActivity()
+            .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+
         binding.searchEditText.setOnFocusChangeListener { v, hasFocus ->
 
             if (hasFocus || (v as TextInputEditText).text!!.isNotEmpty()) {
 
                 binding.searchLayout.apply {
+
+                    // Set the close icon.
                     setEndIconDrawable(R.drawable.ic_close)
+
+                    // Set on click listener on the icon.
                     setEndIconOnClickListener {
+
                         (v as TextInputEditText).apply {
                             text!!.clear()
                             clearFocus()
                         }
 
                         // Hide keyboard.
-                        val inputMethodManager = requireActivity()
-                            .getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+                        inputMethodManager.hideSoftInputFromWindow(
+                            binding.root.windowToken, SOFT_INPUT_NO_FLAGS
+                        )
                     }
                 }
 
             } else {
-                binding.searchLayout.setEndIconDrawable(R.drawable.ic_search)
-            }
-        }
 
-        // Add search query and results of it with a delay to the viewModel when text is changed.
-        var job: Job? = null
+                binding.searchLayout.apply {
 
-        binding.searchEditText.addTextChangedListener { editable ->
+                    // Set the search icon.
+                    setEndIconDrawable(R.drawable.ic_search)
 
-            job?.cancel()
+                    // Set on click listener on the icon.
+                    setEndIconOnClickListener {
 
-            job = MainScope().launch {
+                        v.requestFocus()
 
-                delay(500L)
-
-                viewModel.apply {
-                    searchQuery.postValue(editable.toString())
-                    search(editable.toString())
+                        // Show keyboard.
+                        inputMethodManager.showSoftInput(v, SOFT_INPUT_NO_FLAGS)
+                    }
                 }
             }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        // Set focus on the search field if it is not empty.
-        if (binding.searchEditText.text!!.isNotBlank()) binding.searchEditText.requestFocus()
-    }
-
     /**
-     * Calls the function from the viewModel to insert a house
-     * into the database with a changed bookmark state.
+     * Add search query and results of it with a delay
+     * to the view model when text is changed at the search field.
      */
-    private fun onBookmarkClicked(house: House, position: Int) {
+    private fun addSearchQuery() {
 
-        viewModel.addBookmarkedHouseToDatabase(house)
+        binding.searchEditText.addTextChangedListener { editable ->
 
-        binding.recyclerView.adapter!!.notifyItemChanged(position)
-    }
+            val text = editable.toString().trim()
 
-    /**
-     * Sets the current house at the viewModel. Navigates to the house detail view.
-     */
-    override fun houseCardOnClickListener(house: House) {
-        super.houseCardOnClickListener(house)
+            job?.cancel()
 
-        binding.root.findNavController().navigate(
-            R.id.action_overview_fragment_to_house_detail_fragment
-        )
+            job = MainScope().launch(Dispatchers.IO) {
+
+                delay(SEARCH_FIELD_DELAY)
+
+                viewModel.apply {
+                    searchQuery.postValue(text)
+                    search(text)
+                }
+            }
+        }
     }
 }

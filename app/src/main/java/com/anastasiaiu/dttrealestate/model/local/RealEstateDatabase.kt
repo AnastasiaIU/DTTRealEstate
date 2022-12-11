@@ -4,9 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.anastasiaiu.dttrealestate.model.ModelConstants.DATABASE_NAME
 import com.anastasiaiu.dttrealestate.model.House
-import kotlinx.coroutines.CoroutineScope
+import com.anastasiaiu.dttrealestate.model.ModelConstants.DATABASE_NAME
 
 /**
  * [RealEstateDatabase] defines the database configuration and
@@ -17,27 +16,29 @@ abstract class RealEstateDatabase : RoomDatabase() {
 
     abstract fun houseDao(): HouseDao
 
-    private class HouseDatabaseCallback(private val scope: CoroutineScope) : Callback()
-
     companion object {
 
         @Volatile
         private var INSTANCE: RealEstateDatabase? = null
 
-        fun getInstance(
-            context: Context, scope: CoroutineScope
-        ): RealEstateDatabase = INSTANCE ?: synchronized(this) {
-            INSTANCE ?: buildDatabase(context, scope).also { INSTANCE = it }
+        /**
+         * Returns an instance of the [RealEstateDatabase].
+         */
+        fun getInstance(context: Context): RealEstateDatabase {
+
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: buildDatabase(context).also { INSTANCE = it }
+            }
         }
 
-        private fun buildDatabase(context: Context, scope: CoroutineScope): RealEstateDatabase {
+        private fun buildDatabase(context: Context): RealEstateDatabase {
+
             return Room
                 .databaseBuilder(
                     context.applicationContext,
                     RealEstateDatabase::class.java,
                     DATABASE_NAME
                 )
-                .addCallback(HouseDatabaseCallback(scope))
                 .build()
         }
     }

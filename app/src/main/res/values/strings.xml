@@ -31,7 +31,6 @@
     <!-- House detail fragment's strings. -->
     <string name="house_detail_title_description">Description</string>
     <string name="house_detail_title_location">Location</string>
-    <string name="map_marker_title">House</string>
 
     <!-- Information fragment's strings. -->
     <string name="info_title">Design and Development</string>

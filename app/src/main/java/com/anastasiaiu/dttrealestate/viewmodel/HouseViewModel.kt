@@ -8,7 +8,11 @@ import com.anastasiaiu.dttrealestate.view.fragments.FavouritesFragment
 import com.anastasiaiu.dttrealestate.view.fragments.HouseDetailFragment
 import com.anastasiaiu.dttrealestate.view.fragments.OverviewFragment
 import com.anastasiaiu.dttrealestate.view.utilities.HouseApiStatus
+import com.anastasiaiu.dttrealestate.viewmodel.ViewModelConstants.FORMAT_ZIP_NEW_VALUE
+import com.anastasiaiu.dttrealestate.viewmodel.ViewModelConstants.FORMAT_ZIP_OLD_VALUE
+import com.anastasiaiu.dttrealestate.viewmodel.ViewModelConstants.SEARCH_DELIMITER
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
@@ -17,36 +21,54 @@ import kotlinx.coroutines.launch
  */
 class HouseViewModel(private val application: DttRealEstateApplication) : ViewModel() {
 
-    // The MutableLiveData of the status of the most recent request.
+    /**
+     * The MutableLiveData of the status of the most recent request.
+     */
     val status: MutableLiveData<HouseApiStatus> by lazy { MutableLiveData<HouseApiStatus>() }
 
-    // The LiveData of the list of houses objects from the database.
+    /**
+     * The LiveData of the list of house objects from the database.
+     */
     val housesList = application.repository.getAllHousesFromDatabase().asLiveData()
 
-    // The LiveData of the list of bookmarked houses objects from the database.
+    /**
+     * The LiveData of the list of bookmarked houses objects from the database.
+     */
     val bookmarkedHousesList = application.repository.getAllBookmarkedHouses().asLiveData()
 
-    // The MutableLiveData of the query string from the search field.
+    /**
+     * The MutableLiveData of the query string from the search field.
+     */
     val searchQuery: MutableLiveData<String> by lazy { MutableLiveData() }
 
-    // The MutableLiveData of the list of houses objects from the database search.
+    /**
+     * The MutableLiveData of the list of house objects from the database search.
+     */
     val searchHousesList: MutableLiveData<List<House>> by lazy { MutableLiveData() }
 
-    // The MutableLiveData to track if the empty state needed to be shown.
+    /**
+     * The MutableLiveData to track if the empty state needed to be shown.
+     */
     val emptyState: MutableLiveData<Boolean> by lazy { MutableLiveData() }
 
-    // The house to be displayed in the details screen.
+    /**
+     * The house to be displayed in the details screen.
+     */
     lateinit var currentHouse: House
 
-    // Latitude of the device. Set to default value initially.
+    /**
+     * Latitude of the device.
+     */
     var deviceLatitude: Double? = null
 
-    // Longitude of the device. Set to default value initially.
+    /**
+     * Longitude of the device.
+     */
     var deviceLongitude: Double? = null
 
     init {
         getHouses()
-        setDeviceLocation(application)
+        setDeviceLocation()
     }
 
     /**
@@ -54,17 +76,17 @@ class HouseViewModel(private val application: DttRealEstateApplication) : ViewMo
      */
     private fun getHouses() {
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
 
             status.postValue(HouseApiStatus.LOADING)
 
             try {
 
-                application.repository.addAllHousesToDatabase(
-                    application.repository.getHousesFromServer()
-                )
+                application.repository.apply { addAllHousesToDatabase(getHousesFromServer()) }
 
                 status.postValue(HouseApiStatus.SUCCESS)
+
+                formatZipCodes()
 
             } catch (e: Exception) {
 
@@ -74,12 +96,27 @@ class HouseViewModel(private val application: DttRealEstateApplication) : ViewMo
     }
 
     /**
-     * Sets last known position of the device.
-     * If the position is unavailable the coordinates will remain at the default value.
+     * Formats zip codes of all houses in the database to be in the format 1034BN.
      */
-    private fun setDeviceLocation(application: DttRealEstateApplication) {
+    private suspend fun formatZipCodes() {
 
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)
+        val houses = application.repository.getAllHousesFromDatabaseList()
+
+        houses.forEach { house ->
+
+            house.zip = house.zip.replace(FORMAT_ZIP_OLD_VALUE, FORMAT_ZIP_NEW_VALUE)
+
+            application.repository.addHouseToDatabase(house)
+        }
+    }
+
+    /**
+     * Sets the last known position of the device.
+     */
+    private fun setDeviceLocation() {
+
+        val fusedLocationClient = LocationServices
+            .getFusedLocationProviderClient(application.applicationContext)
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
 
@@ -91,22 +128,21 @@ class HouseViewModel(private val application: DttRealEstateApplication) : ViewMo
     }
 
     /**
-     * Sets a house object that will be used to display
-     * the details of a house when a list item is clicked.
+     * Sets the [house] object that will be displayed at the details fragment.
      */
-    fun onHouseCardClicked(house: House) {
+    fun applyCurrentHouse(house: House) {
         currentHouse = house
     }
 
     /**
-     * Inserts a house to the database with a changed bookmark state.
+     * Inserts the [house] to the database with a changed bookmark state.
      */
     fun addBookmarkedHouseToDatabase(house: House) {
-        viewModelScope.launch { application.repository.addHouseToDatabase(house) }
+        viewModelScope.launch(Dispatchers.IO) { application.repository.addHouseToDatabase(house) }
     }
 
     /**
-     * Searches for houses with the provided value at the database
+     * Searches for houses with [searchValue] at the database
      * and posts results to the [HouseViewModel].
      */
     suspend fun search(searchValue: String) {
@@ -120,7 +156,7 @@ class HouseViewModel(private val application: DttRealEstateApplication) : ViewMo
         searchValueList.apply {
 
             // Add all values to be searched.
-            addAll(searchValue.split(' '))
+            addAll(searchValue.split(SEARCH_DELIMITER))
 
             forEachIndexed { index, string ->
 

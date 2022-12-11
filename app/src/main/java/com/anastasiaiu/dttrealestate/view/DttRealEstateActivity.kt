@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.anastasiaiu.dttrealestate.R
 import com.anastasiaiu.dttrealestate.databinding.ActivityRealEstateAppBinding
+import com.anastasiaiu.dttrealestate.view.utilities.ViewConstants.REQUEST_CODE
 
 /**
  * The main activity of the application.
@@ -37,7 +38,7 @@ class DttRealEstateActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                    101
+                    REQUEST_CODE
                 )
             }
         } catch (e: Exception) {
@@ -46,7 +47,6 @@ class DttRealEstateActivity : AppCompatActivity() {
 
         // Inflate layout.
         val binding = ActivityRealEstateAppBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         // Set navigation bar.
@@ -74,6 +74,9 @@ class DttRealEstateActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Hides status bar.
+     */
     private fun hideStatusBar() {
 
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)

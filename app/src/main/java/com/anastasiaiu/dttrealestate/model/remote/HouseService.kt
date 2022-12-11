@@ -12,6 +12,9 @@ private const val HEADER_ACCESS_KEY = "access-key: $DTT_ACCESS_KEY"
  */
 interface HouseService {
 
+    /**
+     * Returns a list of [House] obtained from the server.
+     */
     @Headers(HEADER_ACCESS_KEY)
     @GET("api/house/")
     suspend fun getHouses(): List<House>

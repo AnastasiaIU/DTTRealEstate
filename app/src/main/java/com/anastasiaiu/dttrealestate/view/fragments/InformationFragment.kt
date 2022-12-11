@@ -36,17 +36,17 @@ class InformationFragment : Fragment() {
     }
 
     /**
-     * Opens an URL in a browser using implicit [Intent].
+     * Opens the [link] in a browser using implicit [Intent].
      */
     private fun openWebsite(link: String) {
 
-        // Parse the passed string into a URI object
+        // Parse the passed string into a URI object.
         val uri = Uri.parse(link)
 
-        // Create a new Intent for viewing the URI object
+        // Create a new Intent for displaying the URI object.
         val viewIntent = Intent(Intent.ACTION_VIEW, uri)
 
-        // Start an Activity
+        // Start an Activity.
         startActivity(viewIntent)
     }
 }

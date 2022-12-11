@@ -24,6 +24,9 @@ class HouseListAdapter(
     inner class ViewHolder(private val binding: HouseCardViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Binds [house] values to the [ViewHolder] and sets click listeners.
+         */
         fun bind(
             house: House,
             distanceToLocation: (Double, Double) -> Double?,
@@ -51,13 +54,15 @@ class HouseListAdapter(
                 houseCardSize.text = house.size.toString()
                 houseCardIconBookmark.setImageResource(bookmarkIcon)
 
+                // Hide the location icon if the distance is null,
+                // otherwise set the distance value.
                 if (distance == null) {
                     houseCardIconDistance.visibility = View.GONE
                 } else {
                     houseCardDistance.text = FormatValue.formatDistance(distance)
                 }
 
-                // Set onClickListeners for the card and the bookmark.
+                // Set click listeners for the card and the bookmark.
                 root.setOnClickListener { houseCardOnClickListener(house) }
                 houseCardIconBookmark.setOnClickListener {
                     house.isBookmarked = !isHouseBookmarked
@@ -90,8 +95,11 @@ class HouseListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val house = getItem(position)
-
-        holder.bind(house, distanceToLocation, bookmarkOnClickListener, houseCardOnClickListener)
+        holder.bind(
+            getItem(position),
+            distanceToLocation,
+            bookmarkOnClickListener,
+            houseCardOnClickListener
+        )
     }
 }

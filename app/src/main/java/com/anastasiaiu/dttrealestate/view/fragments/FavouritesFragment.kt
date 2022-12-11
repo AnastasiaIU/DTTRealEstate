@@ -29,10 +29,11 @@ class FavouritesFragment : BaseFragment() {
         houseListAdapter = HouseListAdapter(
             ::getDistanceFromDevice,
             ::onBookmarkClicked,
-            ::houseCardOnClickListener
+            ::setCurrentHouseAtViewModel
         )
 
         binding.recyclerView.apply {
+
             adapter = houseListAdapter
 
             addItemDecoration(
@@ -48,41 +49,42 @@ class FavouritesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Observe status of the empty state to track if it is needed to be shown.
-        viewModel.emptyState.observe(viewLifecycleOwner) { statusIsTrue ->
-            if (statusIsTrue) {
-                binding.emptyStateContainer.visibility = View.VISIBLE
-            } else {
-                binding.emptyStateContainer.visibility = View.GONE
-            }
-        }
-
-        // Observe changes at bookmarked houses list to display them.
-        viewModel.bookmarkedHousesList.observe(viewLifecycleOwner) { list ->
-            houseListAdapter.submitList(list)
-            viewModel.emptyState.postValue(list.isEmpty())
-        }
+        // Set observers.
+        observeEmptyStateStatus(binding.emptyStateContainer)
+        observeBookmarkedHousesList()
     }
 
     /**
-     * Calls the function from the viewModel to insert a house
+     * Calls the function from the view model to insert a house
      * into the database with a changed bookmark state.
      */
     private fun onBookmarkClicked(house: House, position: Int) {
 
         viewModel.addBookmarkedHouseToDatabase(house)
 
-        binding.recyclerView.adapter!!.notifyItemChanged(position)
+        binding.recyclerView.adapter?.notifyItemChanged(position)
     }
 
     /**
-     * Sets the current house at the viewModel. Navigates to the house detail view.
+     * Sets the [house] to be the current house at the view model.
+     * Navigates to the house detail view.
      */
-    override fun houseCardOnClickListener(house: House) {
-        super.houseCardOnClickListener(house)
+    override fun setCurrentHouseAtViewModel(house: House) {
+        super.setCurrentHouseAtViewModel(house)
 
         binding.root.findNavController().navigate(
             R.id.action_favourites_fragment_to_house_detail_fragment
         )
+    }
+
+    /**
+     * Sets observer to the changes at bookmarked houses list to display them.
+     */
+    private fun observeBookmarkedHousesList() {
+
+        viewModel.bookmarkedHousesList.observe(viewLifecycleOwner) { list ->
+            houseListAdapter.submitList(list)
+            viewModel.emptyState.postValue(list.isEmpty())
+        }
     }
 }

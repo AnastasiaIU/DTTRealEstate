@@ -18,5 +18,8 @@ object RetrofitService {
         .addConverterFactory(Json.asConverterFactory(contentType))
         .build()
 
+    /**
+     * The instance of Retrofit interface.
+     */
     val instance: HouseService by lazy { retrofit.create(HouseService::class.java) }
 }

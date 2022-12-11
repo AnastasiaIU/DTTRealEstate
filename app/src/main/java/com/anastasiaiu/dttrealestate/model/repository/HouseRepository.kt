@@ -10,26 +10,55 @@ import kotlinx.coroutines.flow.Flow
  */
 class HouseRepository(private val houseDao: HouseDao) {
 
+    /**
+     * Returns a list of [House] obtained from the server.
+     */
     suspend fun getHousesFromServer(): List<House> {
         return RetrofitService.instance.getHouses()
     }
 
+    /**
+     * Inserts all [houses] in the database.
+     */
     suspend fun addAllHousesToDatabase(houses: List<House>) {
-        houseDao.insertAll(houses)
+        houseDao.insertListOfHouses(houses)
     }
 
+    /**
+     * Returns all houses from the database ordered by price in ascending order.
+     * @return the list of [House] as flow data stream.
+     */
     fun getAllHousesFromDatabase(): Flow<List<House>> {
-        return houseDao.getAllHouses()
+        return houseDao.getAllHousesAsFlow()
     }
 
+    /**
+     * Returns all houses from the database ordered by price in ascending order.
+     * @return the list of [House].
+     */
+    suspend fun getAllHousesFromDatabaseList(): List<House> {
+        return houseDao.getAllHousesList()
+    }
+
+    /**
+     * Inserts the [house] in the database.
+     */
     suspend fun addHouseToDatabase(house: House) {
         houseDao.insertHouse(house)
     }
 
+    /**
+     * Returns all bookmarked houses from the database ordered by price in ascending order.
+     * @return the list of [House] as flow data stream.
+     */
     fun getAllBookmarkedHouses(): Flow<List<House>> {
         return houseDao.getAllBookmarkedHouses()
     }
 
+    /**
+     * Performs a search at the database by [searchQuery] at zip and city columns.
+     * @return result of search as a list of [House] ordered by price in ascending order.
+     */
     suspend fun searchAtDatabase(searchQuery: String): List<House> {
         return houseDao.searchAtDatabase(searchQuery)
     }

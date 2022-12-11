@@ -3,8 +3,6 @@ package com.anastasiaiu.dttrealestate
 import android.app.Application
 import com.anastasiaiu.dttrealestate.model.local.RealEstateDatabase
 import com.anastasiaiu.dttrealestate.model.repository.HouseRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 
 /**
  * [DttRealEstateApplication] provides single instances of
@@ -12,9 +10,11 @@ import kotlinx.coroutines.SupervisorJob
  */
 class DttRealEstateApplication : Application() {
 
-    private val applicationScope = CoroutineScope(SupervisorJob())
+    private val database by lazy { RealEstateDatabase.getInstance(this) }
 
-    private val database by lazy { RealEstateDatabase.getInstance(this, applicationScope) }
-
+    /**
+     * An instance of [HouseRepository] class which
+     * provides access to the data layer of the application.
+     */
     val repository by lazy { HouseRepository(database.houseDao()) }
 }
