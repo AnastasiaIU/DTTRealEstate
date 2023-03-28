@@ -3,7 +3,7 @@ DTT Real Estate application fetches data from a remote source, using the company
 
 The log hours can be found in the assets directory.
 
-The application was implemented using the MVVM pattern, Retrofit2, Room, LiveData, ViewModel, Coroutines, Navigation Components, Data Binding, Kotlin serialization, Coil, and Google play services for maps.
+The application was implemented using the MVVM pattern, Retrofit2, Room, LiveData, ViewModel, Coroutines, Navigation Components, View Binding, Kotlin serialization, Coil, and Google play services for maps.
 
 <img src="assets/Screenshots.png" width="100%" height="100%"/>
 
